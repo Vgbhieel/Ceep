@@ -32,9 +32,6 @@ class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickLis
 
         val recyclerView = binding.listaNotasRv
 
-        for (i in 1..10) {
-            NotaDAO.insere(Nota("Título $i", "Descrição $i"))
-        }
         todasNotas = NotaDAO.todos()
 
         configuraBtnInsereNota()
@@ -85,6 +82,7 @@ class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickLis
             val posicaoRecebida = data.getIntExtra("posicao", -1)
             NotaDAO.altera(posicaoRecebida, notaRecebida)
             adapter.altera(posicaoRecebida, notaRecebida)
+            Toast.makeText(this, "Nota alterada com sucesso.", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Ocorreu um erro ao editar a nota.", Toast.LENGTH_SHORT).show()
         }
