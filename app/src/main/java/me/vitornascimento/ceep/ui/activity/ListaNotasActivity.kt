@@ -9,7 +9,6 @@ import me.vitornascimento.ceep.dao.NotaDAO
 import me.vitornascimento.ceep.databinding.ActivityListaNotasBinding
 import me.vitornascimento.ceep.model.Nota
 import me.vitornascimento.ceep.ui.activity.NotaActivityConstantes.Companion.CHAVE_NOTA
-import me.vitornascimento.ceep.ui.activity.NotaActivityConstantes.Companion.CHAVE_POSICAO
 import me.vitornascimento.ceep.ui.activity.NotaActivityConstantes.Companion.CODIGO_REQUISICAO_ALTERA_NOTA
 import me.vitornascimento.ceep.ui.activity.NotaActivityConstantes.Companion.CODIGO_REQUISICAO_INSERE_NOTA
 import me.vitornascimento.ceep.ui.adapter.ListaNotasAdapter
@@ -65,11 +64,13 @@ class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickLis
         resultCode: Int,
         data: Intent?
     ) {
-        if (requestCode == CODIGO_REQUISICAO_ALTERA_NOTA && resultCode == RESULT_OK && data!!.hasExtra(
-                CHAVE_NOTA
-            ) && data.hasExtra(CHAVE_POSICAO)
-        ) {
-            alteraNota(data)
+        if (data != null) {
+            if (requestCode == CODIGO_REQUISICAO_ALTERA_NOTA && data.hasExtra(CHAVE_NOTA)
+            ) {
+                if (resultCode == RESULT_OK) {
+                    alteraNota(data)
+                }
+            }
         }
 
     }
@@ -91,11 +92,12 @@ class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickLis
         data: Intent?
     ) {
 
-        if (requestCode == CODIGO_REQUISICAO_INSERE_NOTA && resultCode == RESULT_OK && data!!.hasExtra(
-                CHAVE_NOTA
-            )
-        ) {
-            insereNovaNota(data)
+        if (data != null) {
+            if (requestCode == CODIGO_REQUISICAO_INSERE_NOTA && data.hasExtra(CHAVE_NOTA)) {
+                if (resultCode == RESULT_OK) {
+                    insereNovaNota(data)
+                }
+            }
         }
 
     }
