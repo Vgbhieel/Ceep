@@ -18,6 +18,8 @@ class FormularioNotaActivity : AppCompatActivity() {
     lateinit var binding: ActivityFormularioNotaBinding
     var posicaoRecebida by Delegates.notNull<Int>()
     var ehEdicao = false
+    val TITULO_APPBAR_INSERIR = "Insere nota"
+    val TITULO_APPBAR_ALTERAR = "Altera nota"
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -25,6 +27,8 @@ class FormularioNotaActivity : AppCompatActivity() {
         binding = ActivityFormularioNotaBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        title = TITULO_APPBAR_INSERIR
 
         verificaExtrasParaEdicao()
 
@@ -51,6 +55,7 @@ class FormularioNotaActivity : AppCompatActivity() {
     private fun configuraEdicao() {
 
         ehEdicao = true
+        title = TITULO_APPBAR_ALTERAR
 
     }
 

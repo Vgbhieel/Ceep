@@ -19,6 +19,7 @@ class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickLis
     lateinit var binding: ActivityListaNotasBinding
     lateinit var adapter: ListaNotasAdapter
     lateinit var todasNotas: ArrayList<Nota>
+    val TITULO_APPBAR = "Notas"
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -26,6 +27,8 @@ class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickLis
         binding = ActivityListaNotasBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        title = TITULO_APPBAR
 
         val recyclerView = binding.listaNotasRv
 
