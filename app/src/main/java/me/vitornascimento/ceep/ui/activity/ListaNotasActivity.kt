@@ -12,8 +12,6 @@ import me.vitornascimento.ceep.ui.activity.NotaActivityConstantes.Companion.CHAV
 import me.vitornascimento.ceep.ui.activity.NotaActivityConstantes.Companion.CHAVE_POSICAO
 import me.vitornascimento.ceep.ui.activity.NotaActivityConstantes.Companion.CODIGO_REQUISICAO_ALTERA_NOTA
 import me.vitornascimento.ceep.ui.activity.NotaActivityConstantes.Companion.CODIGO_REQUISICAO_INSERE_NOTA
-import me.vitornascimento.ceep.ui.activity.NotaActivityConstantes.Companion.CODIGO_RESULTADO_NOTA_ALTERADA
-import me.vitornascimento.ceep.ui.activity.NotaActivityConstantes.Companion.CODIGO_RESULTADO_NOTA_CRIADA
 import me.vitornascimento.ceep.ui.adapter.ListaNotasAdapter
 
 class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickListener {
@@ -67,7 +65,7 @@ class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickLis
         resultCode: Int,
         data: Intent?
     ) {
-        if (requestCode == CODIGO_REQUISICAO_ALTERA_NOTA && resultCode == CODIGO_RESULTADO_NOTA_ALTERADA && data!!.hasExtra(
+        if (requestCode == CODIGO_REQUISICAO_ALTERA_NOTA && resultCode == RESULT_OK && data!!.hasExtra(
                 CHAVE_NOTA
             ) && data.hasExtra(CHAVE_POSICAO)
         ) {
@@ -93,7 +91,7 @@ class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickLis
         data: Intent?
     ) {
 
-        if (requestCode == CODIGO_REQUISICAO_INSERE_NOTA && resultCode == CODIGO_RESULTADO_NOTA_CRIADA && data!!.hasExtra(
+        if (requestCode == CODIGO_REQUISICAO_INSERE_NOTA && resultCode == RESULT_OK && data!!.hasExtra(
                 CHAVE_NOTA
             )
         ) {

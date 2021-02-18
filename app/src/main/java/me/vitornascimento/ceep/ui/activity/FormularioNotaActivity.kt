@@ -11,8 +11,6 @@ import me.vitornascimento.ceep.databinding.ActivityFormularioNotaBinding
 import me.vitornascimento.ceep.model.Nota
 import me.vitornascimento.ceep.ui.activity.NotaActivityConstantes.Companion.CHAVE_NOTA
 import me.vitornascimento.ceep.ui.activity.NotaActivityConstantes.Companion.CHAVE_POSICAO
-import me.vitornascimento.ceep.ui.activity.NotaActivityConstantes.Companion.CODIGO_RESULTADO_NOTA_ALTERADA
-import me.vitornascimento.ceep.ui.activity.NotaActivityConstantes.Companion.CODIGO_RESULTADO_NOTA_CRIADA
 import kotlin.properties.Delegates
 
 class FormularioNotaActivity : AppCompatActivity() {
@@ -105,14 +103,14 @@ class FormularioNotaActivity : AppCompatActivity() {
     private fun retornaNovaNota(notaCriada: Nota) {
         val resultadoInsercao = Intent()
         resultadoInsercao.putExtra(CHAVE_NOTA, notaCriada)
-        setResult(CODIGO_RESULTADO_NOTA_CRIADA, resultadoInsercao)
+        setResult(RESULT_OK, resultadoInsercao)
     }
 
     private fun retornaNotaAlterada(notaAlterada: Nota) {
         val resultadoAlteracao = Intent()
         resultadoAlteracao.putExtra(CHAVE_NOTA, notaAlterada)
         resultadoAlteracao.putExtra(CHAVE_POSICAO, posicaoRecebida)
-        setResult(CODIGO_RESULTADO_NOTA_ALTERADA, resultadoAlteracao)
+        setResult(RESULT_OK, resultadoAlteracao)
     }
 
     private fun criaNovaNota(): Nota {
