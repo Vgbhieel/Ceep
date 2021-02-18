@@ -12,7 +12,7 @@ import me.vitornascimento.ceep.model.Nota
 class ListaNotasAdapter(
     private val context: Context,
     private val notas: ArrayList<Nota>,
-    private val listener: OnItemClickListener
+    private val listener: OnItemClickListener?
 ) :
     RecyclerView.Adapter<ListaNotasAdapter.ListaNotasViewHolder>() {
 
@@ -28,7 +28,7 @@ class ListaNotasAdapter(
         override fun onClick(v: View?) {
             val position = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(position)
+                listener?.onItemClick(position)
             }
         }
     }
@@ -54,5 +54,10 @@ class ListaNotasAdapter(
     fun adiciona(nota: Nota) {
         notas.add(nota)
         notifyDataSetChanged()
+    }
+
+    fun altera(posicao: Int, nota: Nota) {
+        notas[posicao] = nota
+        notifyItemChanged(posicao)
     }
 }
