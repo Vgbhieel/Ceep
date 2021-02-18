@@ -10,7 +10,7 @@ import me.vitornascimento.ceep.R
 import me.vitornascimento.ceep.model.Nota
 
 class ListaNotasAdapter(private val context: Context, private val notas: List<Nota>) :
-    RecyclerView.Adapter<ListaNotasAdapter.ListaNotasViewHolder>() {
+        RecyclerView.Adapter<ListaNotasAdapter.ListaNotasViewHolder>() {
 
     class ListaNotasViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvTitulo: TextView = view.findViewById(R.id.item_nota_tv_titulo)
