@@ -60,4 +60,9 @@ class ListaNotasAdapter(
         notas[posicao] = nota
         notifyItemChanged(posicao)
     }
+
+    fun remove(posicao: Int) {
+        notas.removeAt(posicao)
+        notifyItemRemoved(posicao)
+    }
 }

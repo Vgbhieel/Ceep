@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import me.vitornascimento.ceep.dao.NotaDAO
 import me.vitornascimento.ceep.databinding.ActivityListaNotasBinding
@@ -116,6 +117,38 @@ class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickLis
         adapter = ListaNotasAdapter(this, todasNotas, this)
         recyclerView.adapter = adapter
 
+        configuraItemTouchHelper(recyclerView)
+
+    }
+
+    private fun configuraItemTouchHelper(recyclerView: RecyclerView) {
+
+        val itemTouchCallback = object : ItemTouchHelper.Callback() {
+            override fun getMovementFlags(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ): Int {
+                val marcacoesDeDeslize = ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
+                return makeMovementFlags(0, marcacoesDeDeslize)
+            }
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val posicaoElemento = viewHolder.adapterPosition
+                NotaDAO.remove(posicaoElemento)
+                adapter.remove(posicaoElemento)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     override fun onItemClick(position: Int) {
