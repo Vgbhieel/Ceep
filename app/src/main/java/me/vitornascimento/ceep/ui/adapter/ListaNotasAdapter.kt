@@ -4,39 +4,30 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import me.vitornascimento.ceep.R
 import me.vitornascimento.ceep.model.Nota
 
 class ListaNotasAdapter(private val context: Context, private val notas: List<Nota>) :
-    BaseAdapter() {
+    RecyclerView.Adapter<ListaNotasAdapter.ListaNotasViewHolder>() {
 
-    override fun getCount(): Int {
-        return notas.size
+    class ListaNotasViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val tvTitulo: TextView = view.findViewById(R.id.item_nota_tv_titulo)
+        val tvDescricao: TextView = view.findViewById(R.id.item_nota_tv_descricao)
     }
 
-    override fun getItem(posicao: Int): Nota {
-        return notas[posicao]
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListaNotasViewHolder {
+        val viewCriada = LayoutInflater.from(context).inflate(R.layout.item_nota, parent, false)
+        return ListaNotasViewHolder(viewCriada)
     }
 
-    override fun getItemId(i: Int): Long {
-        return 0
+    override fun onBindViewHolder(holder: ListaNotasViewHolder, position: Int) {
+        val nota = notas[position]
+
+        holder.tvTitulo.text = nota.titulo
+        holder.tvDescricao.text = nota.descricao
     }
 
-    override fun getView(posicao: Int, view: View?, viewGroup: ViewGroup?): View {
-
-        val viewCriada: View =
-            LayoutInflater.from(context).inflate(R.layout.item_nota, viewGroup, false)
-
-        val nota = notas[posicao]
-
-        val titulo = viewCriada.findViewById<TextView>(R.id.item_nota_tv_titulo)
-        titulo.text = nota.titulo
-
-        val descricao = viewCriada.findViewById<TextView>(R.id.item_nota_tv_descricao)
-        descricao.text = nota.descricao
-
-        return viewCriada
-    }
+    override fun getItemCount() = notas.size
 }

@@ -2,6 +2,7 @@ package me.vitornascimento.ceep.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import me.vitornascimento.ceep.dao.NotaDAO
 import me.vitornascimento.ceep.databinding.ActivityListaNotasBinding
 import me.vitornascimento.ceep.model.Nota
@@ -17,7 +18,7 @@ class ListaNotasActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        val listaNotas = binding.listaNotasLv
+        val listaNotas = binding.listaNotasRv
 
 
         val dao = NotaDAO
@@ -26,7 +27,11 @@ class ListaNotasActivity : AppCompatActivity() {
         }
         val todasNotas = dao.todos()
 
-        listaNotas.adapter = ListaNotasAdapter(this, todasNotas)
+        val adapter = ListaNotasAdapter(this, todasNotas)
+        val layoutManager = LinearLayoutManager(this)
+
+        listaNotas.adapter = adapter
+        listaNotas.layoutManager = layoutManager
 
     }
 }
