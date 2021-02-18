@@ -2,6 +2,7 @@ package me.vitornascimento.ceep.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import me.vitornascimento.ceep.dao.NotaDAO
@@ -22,6 +23,7 @@ class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickLis
     lateinit var todasNotas: ArrayList<Nota>
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = ActivityListaNotasBinding.inflate(layoutInflater)
         val view = binding.root
@@ -37,14 +39,17 @@ class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickLis
         configuraBtnInsereNota()
 
         configuraRecyclerView(todasNotas, recyclerView)
+
     }
 
     private fun configuraBtnInsereNota() {
+
         val btnInsereNota = binding.listaNotasTvInserirNota
         btnInsereNota.setOnClickListener {
             val vaiParaFormularioNotasActivity = Intent(this, FormularioNotaActivity::class.java)
             startActivityForResult(vaiParaFormularioNotasActivity, CODIGO_REQUISICAO_INSERE_NOTA)
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -57,6 +62,7 @@ class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickLis
     }
 
     private fun verificaSeTemNotaAlterada(
+
         requestCode: Int,
         resultCode: Int,
         data: Intent?
@@ -67,13 +73,18 @@ class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickLis
         ) {
             alteraNota(data)
         }
+
     }
 
     private fun alteraNota(data: Intent) {
-        val notaRecebida: Nota = data.getParcelableExtra(CHAVE_NOTA)!!
-        val posicaoRecebida = data.getIntExtra("posicao", -1)
-        NotaDAO.altera(posicaoRecebida, notaRecebida)
-        adapter.altera(posicaoRecebida, notaRecebida)
+        if ((data.getIntExtra("posicao", -1)) >= 0) {
+            val notaRecebida: Nota = data.getParcelableExtra(CHAVE_NOTA)!!
+            val posicaoRecebida = data.getIntExtra("posicao", -1)
+            NotaDAO.altera(posicaoRecebida, notaRecebida)
+            adapter.altera(posicaoRecebida, notaRecebida)
+        } else {
+            Toast.makeText(this, "Ocorreu um erro ao editar a nota.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun verificaSeTemNotaCriada(
@@ -81,31 +92,41 @@ class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickLis
         resultCode: Int,
         data: Intent?
     ) {
+
         if (requestCode == CODIGO_REQUISICAO_INSERE_NOTA && resultCode == CODIGO_RESULTADO_NOTA_CRIADA && data!!.hasExtra(
                 CHAVE_NOTA
             )
         ) {
             insereNovaNota(data)
         }
+
     }
 
     private fun insereNovaNota(data: Intent) {
+
         val notaRecebida: Nota = data.getParcelableExtra(CHAVE_NOTA)!!
         NotaDAO.insere(notaRecebida)
         adapter.adiciona(notaRecebida)
+        Toast.makeText(this, "Nota inserida com sucesso.", Toast.LENGTH_SHORT).show()
+
     }
 
     private fun configuraRecyclerView(todasNotas: ArrayList<Nota>, recyclerView: RecyclerView) {
+
         adapter = ListaNotasAdapter(this, todasNotas, this)
         recyclerView.adapter = adapter
+
     }
 
     override fun onItemClick(position: Int) {
+
         val notaClicada = todasNotas[position]
         val abreFormularioComNota =
             Intent(this, FormularioNotaActivity::class.java)
         abreFormularioComNota.putExtra(CHAVE_NOTA, notaClicada)
         abreFormularioComNota.putExtra("posicao", position)
         startActivityForResult(abreFormularioComNota, 2)
+
     }
+
 }
