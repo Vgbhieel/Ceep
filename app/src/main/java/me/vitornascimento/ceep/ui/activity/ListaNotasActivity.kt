@@ -40,6 +40,15 @@ class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickLis
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        verificaSeTemNotaCriada(requestCode, resultCode, data)
+
+        verificaSeTemNotaAlterada(requestCode, resultCode, data)
+
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     private fun configuraBtnInsereNota() {
 
         val btnInsereNota = binding.listaNotasTvInserirNota
@@ -48,15 +57,6 @@ class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickLis
             startActivityForResult(vaiParaFormularioNotasActivity, CODIGO_REQUISICAO_INSERE_NOTA)
         }
 
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        verificaSeTemNotaCriada(requestCode, resultCode, data)
-
-        verificaSeTemNotaAlterada(requestCode, resultCode, data)
-
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun verificaSeTemNotaAlterada(
@@ -128,8 +128,13 @@ class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickLis
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder
             ): Int {
+
                 val marcacoesDeDeslize = ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
-                return makeMovementFlags(0, marcacoesDeDeslize)
+                val marcacoesDeArrastar =
+                    ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
+
+                return makeMovementFlags(marcacoesDeArrastar, marcacoesDeDeslize)
+
             }
 
             override fun onMove(
@@ -137,13 +142,21 @@ class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickLis
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                TODO("Not yet implemented")
+
+                val posicaoInicial = viewHolder.adapterPosition
+                val posicaoFinal = target.adapterPosition
+                NotaDAO.troca(posicaoInicial, posicaoFinal)
+                adapter.troca(posicaoInicial, posicaoFinal)
+
+                return true
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val posicaoElemento = viewHolder.adapterPosition
-                NotaDAO.remove(posicaoElemento)
-                adapter.remove(posicaoElemento)
+
+                val posicaoElementoSelecionado = viewHolder.adapterPosition
+                NotaDAO.remove(posicaoElementoSelecionado)
+                adapter.remove(posicaoElementoSelecionado)
+
             }
         }
 

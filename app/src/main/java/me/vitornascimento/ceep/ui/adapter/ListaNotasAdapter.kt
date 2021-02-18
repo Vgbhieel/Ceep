@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import me.vitornascimento.ceep.R
 import me.vitornascimento.ceep.model.Nota
+import java.util.*
 
 class ListaNotasAdapter(
     private val context: Context,
@@ -64,5 +65,10 @@ class ListaNotasAdapter(
     fun remove(posicao: Int) {
         notas.removeAt(posicao)
         notifyItemRemoved(posicao)
+    }
+
+    fun troca(posicaoInicial: Int, posicaoFinal: Int) {
+        Collections.swap(notas, posicaoInicial, posicaoFinal)
+        notifyItemMoved(posicaoInicial, posicaoFinal)
     }
 }
