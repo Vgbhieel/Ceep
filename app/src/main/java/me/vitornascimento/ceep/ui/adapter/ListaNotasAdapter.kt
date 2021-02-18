@@ -9,12 +9,32 @@ import androidx.recyclerview.widget.RecyclerView
 import me.vitornascimento.ceep.R
 import me.vitornascimento.ceep.model.Nota
 
-class ListaNotasAdapter(private val context: Context, private val notas: ArrayList<Nota>) :
+class ListaNotasAdapter(
+    private val context: Context,
+    private val notas: ArrayList<Nota>,
+    private val listener: OnItemClickListener
+) :
     RecyclerView.Adapter<ListaNotasAdapter.ListaNotasViewHolder>() {
 
-    class ListaNotasViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ListaNotasViewHolder(view: View) : RecyclerView.ViewHolder(view),
+        View.OnClickListener {
         val tvTitulo: TextView = view.findViewById(R.id.item_nota_tv_titulo)
         val tvDescricao: TextView = view.findViewById(R.id.item_nota_tv_descricao)
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(position)
+            }
+        }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListaNotasViewHolder {

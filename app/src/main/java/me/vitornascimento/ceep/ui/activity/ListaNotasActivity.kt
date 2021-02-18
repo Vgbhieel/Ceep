@@ -12,7 +12,7 @@ import me.vitornascimento.ceep.ui.activity.NotaActivityConstantes.Companion.CODI
 import me.vitornascimento.ceep.ui.activity.NotaActivityConstantes.Companion.CODIGO_RESULTADO_NOTA_CRIADA
 import me.vitornascimento.ceep.ui.adapter.ListaNotasAdapter
 
-class ListaNotasActivity : AppCompatActivity() {
+class ListaNotasActivity : AppCompatActivity(), ListaNotasAdapter.OnItemClickListener {
 
     lateinit var binding: ActivityListaNotasBinding
     lateinit var adapter: ListaNotasAdapter
@@ -55,7 +55,10 @@ class ListaNotasActivity : AppCompatActivity() {
     }
 
     private fun configuraRecyclerView(todasNotas: ArrayList<Nota>, recyclerView: RecyclerView) {
-        adapter = ListaNotasAdapter(this, todasNotas)
+        adapter = ListaNotasAdapter(this, todasNotas, this)
         recyclerView.adapter = adapter
+    }
+
+    override fun onItemClick(position: Int) {
     }
 }
