@@ -8,8 +8,8 @@ class NotaDAO {
 
         private val notas: ArrayList<Nota> = ArrayList()
 
-        fun todos(): List<Nota> {
-            return notas.clone() as List<Nota>
+        fun todos(): ArrayList<Nota> {
+            return notas.clone() as ArrayList<Nota>
         }
 
         fun insere(vararg notas: Nota) {
